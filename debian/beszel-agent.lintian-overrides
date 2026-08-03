@@ -1,0 +1,5 @@
+# Statically-linked (CGO_ENABLED=0) Go binary; no PIE/RELRO without cgo.
+beszel-agent: hardening-no-pie
+beszel-agent: hardening-no-relro
+# Maybe one day
+beszel-agent: no-manual-page

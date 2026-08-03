@@ -1,0 +1,8 @@
+tar-ignore = .git
+tar-ignore = .github
+tar-ignore = .gotoolchain
+tar-ignore = internal/site/node_modules
+tar-ignore = agent/lhm/bin
+tar-ignore = build
+tar-ignore = debian/.gocache
+tar-ignore = debian/.gopath

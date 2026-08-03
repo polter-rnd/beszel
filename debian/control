@@ -1,0 +1,22 @@
+Source: beszel-agent
+Section: net
+Priority: optional
+Maintainer: henrygd <hank@henrygd.me>
+Build-Depends: debhelper-compat (= 13)
+Standards-Version: 4.7.0
+Rules-Requires-Root: no
+Homepage: https://beszel.dev
+
+Package: beszel-agent
+Architecture: any
+Pre-Depends: ${misc:Pre-Depends}, adduser, debconf (>= 0.5) | debconf-2.0
+Depends: ${misc:Depends}, ${shlibs:Depends}
+Description: agent for Beszel, a lightweight server monitoring platform
+ Beszel is a lightweight server monitoring platform that includes Docker
+ statistics, historical data, and alert functions. It has a friendly web
+ interface, simple configuration, and is ready to use out of the box.
+ It supports automatic backup, multi-user, OAuth authentication, and
+ API access.
+ .
+ This package contains the beszel-agent, which runs on monitored systems
+ and reports statistics to a beszel hub over SSH.
