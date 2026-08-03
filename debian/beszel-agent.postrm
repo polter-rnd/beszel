@@ -1,0 +1,12 @@
+#!/bin/sh
+set -e
+
+if [ "$1" = "purge" ]; then
+	. /usr/share/debconf/confmodule
+	db_purge
+	rm -f /etc/beszel-agent.conf
+fi
+
+#DEBHELPER#
+
+exit 0

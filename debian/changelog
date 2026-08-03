@@ -1,0 +1,9 @@
+beszel-agent (0.21.0+devass1) unstable; urgency=medium
+
+  * Initial Debian packaging for beszel-agent.
+  * Bundle upstream Go toolchain tarballs (go/go1.27.1.linux-*.tar.gz) and
+    build with them directly, instead of depending on the distro's
+    golang-go package, so the build always has a toolchain new enough
+    to satisfy go.mod.
+
+ -- Pavel Artsishevsky <polter.rnd@gmail.com>  Thu, 24 Sep 2026 00:00:00 +0100
