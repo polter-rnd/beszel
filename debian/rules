@@ -1,0 +1,37 @@
+#!/usr/bin/make -f
+
+include /usr/share/dpkg/architecture.mk
+
+export CGO_ENABLED = 0
+export GOFLAGS = -mod=vendor
+export GOCACHE = $(CURDIR)/debian/.gocache
+export GOPATH = $(CURDIR)/debian/.gopath
+export GOTOOLCHAIN = local
+
+# NVML GPU monitoring is only implemented for glibc/amd64; Debian, Ubuntu
+# and openSUSE are all glibc-based, so enable it on the arch that supports it.
+GO_TAGS =
+ifeq ($(DEB_HOST_ARCH),amd64)
+GO_TAGS = -tags glibc
+endif
+
+%:
+	dh $@ --buildsystem=none
+
+GO_ARCH := $(shell dpkg --print-architecture)
+GOTOOLCHAIN_DIR := $(CURDIR)/.gotoolchain
+
+override_dh_auto_build:
+	mkdir -p $(GOTOOLCHAIN_DIR)
+	tar -C $(GOTOOLCHAIN_DIR) --strip-components=1 -xf go/go1.26.5.linux-$(GO_ARCH).tar.gz
+	PATH="$(GOTOOLCHAIN_DIR)/bin:$$PATH" GOROOT="$(GOTOOLCHAIN_DIR)" GOTOOLCHAIN=local \
+	go build -trimpath $(GO_TAGS) -ldflags "-w -s" \
+		-o build/beszel-agent ./internal/cmd/agent
+
+override_dh_auto_test:
+	# Agent tests probe host sensors/hardware that aren't available in a
+	# clean build chroot, so they're skipped here. To run them locally:
+	#   go test -mod=vendor ./agent/... ./internal/cmd/agent/...
+
+override_dh_auto_clean:
+	rm -rf build debian/.gocache debian/.gopath
